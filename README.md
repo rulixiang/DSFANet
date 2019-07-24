@@ -32,7 +32,7 @@ optional arguments:
   -h, --help              show this help message and exit
   -e EPOCH, --epoch EPOCH epoches
   -l LR, --lr LR          learning rate
-  -r REG, --reg REG       regurlization parameter
+  -r REG, --reg REG       regularization parameter
   -t TRN, --trn TRN       number of training samples
   -i ITER, --iter ITER    max iteration
   -g GPU, --gpu GPU       GPU ID

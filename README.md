@@ -1,18 +1,11 @@
 # DSFANet (Deep Slow Feature Analysis Net)
-Implementioan of [Unsupervised Deep Slow Feature Analysis for Change Detection in Multi-Temporal Remote Sensing Images](https://arxiv.org/abs/1812.00645)
+Implementioan of [Unsupervised Deep Slow Feature Analysis for Change Detection in Multi-Temporal Remote Sensing Images.](https://arxiv.org/abs/1812.00645)
 
 <img src="./figures/dsfa.png">
 
-```
-In this paper, based on deep network and slow feature analysis (SFA) theory, we proposed a new change detection algorithm for multi-
-temporal remotes sensing images called Deep Slow Feature Analysis (DSFA). In DSFA model, two symmetric deep networks are utilized for
-projecting the input data of bi-temporal imagery. Then, the SFA module is deployed to suppress the unchanged components and highlight 
-the changed components of the transformed features. The CVA pre-detection is employed to find unchanged pixels with high confidence as
-training samples. Finally, the change intensity is calculated with chi-square distance and the changes are determined by threshold
-algorithms. The experiments are performed on two real-world datasets and a public hyperspectral dataset. The visual comparison and
-quantitative evaluation have both shown that DSFA could outperform the other state-of-the-art algorithms, including other SFA-based and
-deep learning methods.
-```
+## Abstract
+In this paper, based on deep network and slow feature analysis (SFA) theory, we proposed a new change detection algorithm for multi-temporal remotes sensing images called Deep Slow Feature Analysis (DSFA). In DSFA model, two symmetric deep networks are utilized for projecting the input data of bi-temporal imagery. Then, the SFA module is deployed to suppress the unchanged components and highlight the changed components of the transformed features. The CVA pre-detection is employed to find unchanged pixels with high confidence as training samples. Finally, the change intensity is calculated with chi-square distance and the changes are determined by threshold algorithms. The experiments are performed on two real-world datasets and a public hyperspectral dataset. The visual comparison and quantitative evaluation have both shown that DSFA could outperform the other state-of-the-art algorithms, including other SFA-based and deep learning methods.
+
 
 ## Requirements
 

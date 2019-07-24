@@ -24,7 +24,7 @@ pip install -r requirements.txt
 ```
 Run
 ```
-usage: python dsfa.py [-h] [-e EPOCH] [-l LR] [-r REG] [-t TRN] [-i ITER] [-g GPU]
+python dsfa.py [-h] [-e EPOCH] [-l LR] [-r REG] [-t TRN] [-i ITER] [-g GPU]
                [--area AREA]
 ```
 ```

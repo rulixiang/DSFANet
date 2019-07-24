@@ -19,7 +19,7 @@ def parser():
 
     parser.add_argument('-e','--epoch',help='epoches',default=2000, type=int)
     parser.add_argument('-l','--lr',help='learning rate',default=1e-4, type=float)
-    parser.add_argument('-r','--reg',help='regurlization parameter',default=1e-4, type=float)
+    parser.add_argument('-r','--reg',help='regularization parameter',default=1e-4, type=float)
     parser.add_argument('-t','--trn',help='number of training samples',default=3000, type=int)
     parser.add_argument("-i",'--iter',  help="max iteration", default=10, type=int)
     parser.add_argument('-g','--gpu', help='GPU ID', default='0')

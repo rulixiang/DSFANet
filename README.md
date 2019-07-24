@@ -1,4 +1,4 @@
-# DSFANet (Deep Slow Feature Analysis Net)
+# DSFANet (Deep Slow Feature Analysis Network)
 Implementioan of [Unsupervised Deep Slow Feature Analysis for Change Detection in Multi-Temporal Remote Sensing Images.](https://arxiv.org/abs/1812.00645)
 
 <img src="./figures/dsfa.png">

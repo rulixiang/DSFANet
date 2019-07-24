@@ -1,7 +1,7 @@
-# DSFA-Net (Deep Slow Feature Analysis Net)
+# DSFANet (Deep Slow Feature Analysis Net)
 Implementioan of [Unsupervised Deep Slow Feature Analysis for Change Detection in Multi-Temporal Remote Sensing Images](https://arxiv.org/abs/1812.00645)
-<img src="./figures/dsfa.png">
 
+<img src="./figures/dsfa.png">
 
 ## Requirements
 
@@ -15,7 +15,7 @@ tensorflow==1.14.0
 
 ## Usage
 ```
-pip install -r requirements 
+pip install -r requirements.txt
 ```
 ```
 usage: python dsfa.py [-h] [-e EPOCH] [-l LR] [-r REG] [-t TRN] [-i ITER] [-g GPU]
@@ -40,10 +40,11 @@ Please cite our paper if you use this code in your research.
 @article{du2018unsupervised,
   title={Unsupervised Deep Slow Feature Analysis for Change Detection in Multi-Temporal Remote Sensing Images},
   author={Du, Bo and Ru, Lixiang and Wu, Chen and Zhang, Liangpei},
-  journal={arXiv preprint arXiv:1812.00645},
-  year={2018}
+  journal={IEEE Transactions on Geoscience and Remote Sensing},
+  year={2019}
 }
 ```
 The data in this repo is originally provided in [GETNET: A General End-to-end Two-dimensional CNN Framework for Hyperspectral Image Change Detection.](https://arxiv.org/abs/1905.01662)
 
-**For any questions, please [contact me](mailto:rulixiang@outlook.com)**
+## Q & A
+**For any questions, please [contact me.](mailto:rulixiang@outlook.com)**

@@ -70,9 +70,8 @@ def dsfa(xtrain, ytrain, xtest, ytest, net_shape=None, args=None):
     B = (sigmaX + sigmaY) / 2 + args.reg * tf.eye(net_shape[-1])
     sigma = tf.matmul(tf.linalg.inv(B), A)+ args.reg * tf.eye(net_shape[-1])
     D, V = tf.linalg.eigh(sigma)
-
-    loss = tf.sqrt(tf.reduce_sum(tf.square(tf.trace(sigma))))
-    #loss = tf.sqrt(tf.reduce_sum(tf.trace(tf.matmul(sigma,sigma))))
+    
+    loss = tf.sqrt(tf.reduce_sum(tf.trace(tf.matmul(sigma,sigma))))
 
     optimizer = tf.train.GradientDescentOptimizer(args.lr).minimize(loss)
 

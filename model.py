@@ -62,14 +62,23 @@ def dsfa(xtrain, ytrain, xtest, ytest, net_shape=None, args=None):
     A = tf.matmul(Differ, Differ, transpose_a=True)
     A = A / train_num
 
-    sigmaX = tf.matmul(fc_x, fc_x, transpose_a=True) #+ lamb * tf.eye(net_shape[-1])
-    sigmaY = tf.matmul(fc_y, fc_y, transpose_a=True) #+ lamb * tf.eye(net_shape[-1])
+    sigmaX = tf.matmul(fc_x, fc_x, transpose_a=True) + args.reg  * tf.eye(net_shape[-1])
+    sigmaY = tf.matmul(fc_y, fc_y, transpose_a=True) + args.reg  * tf.eye(net_shape[-1])
     sigmaX = sigmaX / train_num
     sigmaY = sigmaY / train_num
 
     B = (sigmaX + sigmaY) / 2 + args.reg * tf.eye(net_shape[-1])
-    sigma = tf.matmul(tf.linalg.inv(B), A)+ args.reg * tf.eye(net_shape[-1])
-    D, V = tf.linalg.eigh(sigma)
+
+    # B_inv, For numerical stability.
+    D_B, V_B = tf.self_adjoint_eig(B)
+    idx = tf.where(D_B>1e-12)[:,0]
+    D_B = tf.gather(D_B, idx)
+    V_B = tf.gather(V_B, idx, axis=1)
+    B_inv = tf.matmul(tf.matmul(V_B, tf.diag(tf.reciprocal(D_B))), tf.transpose(V_B))
+
+    sigma = tf.matmul(B_inv, A)#+ args.reg * tf.eye(net_shape[-1])
+
+    D, V = tf.self_adjoint_eig(sigma)
     
     loss = tf.sqrt(tf.reduce_sum(tf.trace(tf.matmul(sigma,sigma))))
 

@@ -6,27 +6,26 @@ from matplotlib import image
 from scipy.cluster.vq import kmeans as km
 
 
-def metric(img, chg, un):
+def metric(img=None, chg_ref=None):
+
+    chg_ref = np.array(chg_ref, dtype=np.float32)
+    chg_ref = chg_ref / np.max(chg_ref)
 
     img = np.reshape(img, [-1])
-    chg = np.reshape(chg, [-1])
-    un = np.reshape(un, [-1])
+    chg_ref = np.reshape(chg_ref, [-1])
 
-    loc1 = np.where(chg == 255)
-    loc1 = loc1[0]
+    loc1 = np.where(chg_ref == 1)[0]
     num1 = np.sum(img[loc1] == 1)
     acc_chg = np.divide(float(num1), float(np.shape(loc1)[0]))
 
-    loc2 = np.where(un == 255)
-    loc2 = loc2[0]
+    loc2 = np.where(chg_ref == 0)[0]
     num2 = np.sum(img[loc2] == 0)
     acc_un = np.divide(float(num2), float(np.shape(loc2)[0]))
 
     acc_all = np.divide(float(num1 + num2), float(np.shape(loc1)[0] + np.shape(loc2)[0]))
 
-    loc3 = np.where(img == 1)
-    loc3 = loc3[0]
-    num3 = np.sum(chg[loc3] == 255)
+    loc3 = np.where(img == 1)[0]
+    num3 = np.sum(chg_ref[loc3] == 1)
     acc_tp = np.divide(float(num3), float(np.shape(loc3)[0]))
 
     print('')
@@ -79,10 +78,9 @@ def linear_sfa(fcx, fcy, vp, shape):
 
 def data_loader(area=None):
 
-    img1_path = area + '/1.mat'
-    img2_path = area + '/2.mat'
-    change_path = area + '/change.bmp'
-    un_path = area + '/unchange.bmp'
+    img1_path = area + '/img_t1.mat'
+    img2_path = area + '/img_t2.mat'
+    change_path = area + '/chg_ref.bmp'
 
     mat1 = sio.loadmat(img1_path)
     mat2 = sio.loadmat(img2_path)
@@ -91,9 +89,8 @@ def data_loader(area=None):
     img2 = mat2['im']
 
     chg_map = image.imread(change_path)
-    un_map = image.imread(un_path)
 
-    return img1, img2, chg_map, un_map
+    return img1, img2, chg_map
 
 
 def kmeans(data):

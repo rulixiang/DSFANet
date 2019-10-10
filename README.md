@@ -54,11 +54,12 @@ optional arguments:
 ## Citation
 Please cite our paper if you use this code in your research.
 ```
-@article{du2018unsupervised,
+@article{du2019unsupervised,
   title={Unsupervised Deep Slow Feature Analysis for Change Detection in Multi-Temporal Remote Sensing Images},
   author={Du, Bo and Ru, Lixiang and Wu, Chen and Zhang, Liangpei},
   journal={IEEE Transactions on Geoscience and Remote Sensing},
-  year={2019}
+  year={2019},
+  publisher={IEEE}
 }
 ```
 

@@ -19,14 +19,14 @@ tensorflow==1.14.0
 
 ## Usage
 ### Download data
-- Data could be [DOWNLOAD](https://pan.baidu.com/s/1I_1o7RePylgjzxAPXZ6BMA) now!
-- : warning : Notice: This dataset is originally provided in [GETNET: A General End-to-end Two-dimensional CNN Framework for Hyperspectral Image Change Detection](https://arxiv.org/abs/1905.01662).
+- [DOWNLOAD DATA](https://pan.baidu.com/s/1I_1o7RePylgjzxAPXZ6BMA).
+- Notice: This dataset is originally provided in [GETNET: A General End-to-end Two-dimensional CNN Framework for Hyperspectral Image Change Detection](https://arxiv.org/abs/1905.01662).
 
 ### Install the requirements
 ```
 pip install -r requirements.txt
 ```
-- Run code
+### Run code
 ```
 python dsfa.py [-h] [-e EPOCH] [-l LR] [-r REG] [-t TRN] [-i ITER] [-g GPU]
                [--area AREA]
@@ -44,10 +44,12 @@ optional arguments:
 
 ```
 ### Results
+<center>
 
 |  Our Results   | Reference Image  |
 |  :----:  | :----:  |
 | <img src="./results/change_map.png" >  | <img src="./results/change_ref.png"> |
+</center>
 
 ## Citation
 Please cite our paper if you use this code in your research.

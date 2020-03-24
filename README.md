@@ -14,13 +14,12 @@ tensorflow_gpu==1.7.0
 scipy==1.0.0
 numpy==1.14.0
 matplotlib==2.1.2
-tensorflow==1.14.0
 ```
 
 ## Usage
 ### Download data
 - [DOWNLOAD DATA](https://pan.baidu.com/s/1I_1o7RePylgjzxAPXZ6BMA).
-- Notice: This dataset is originally provided in [GETNET: A General End-to-end Two-dimensional CNN Framework for Hyperspectral Image Change Detection](https://arxiv.org/abs/1905.01662).
+- Notice: This dataset was firstly provided in [GETNET: A General End-to-end Two-dimensional CNN Framework for Hyperspectral Image Change Detection](https://arxiv.org/abs/1905.01662).
 
 ### Install the requirements
 ```

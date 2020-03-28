@@ -1,5 +1,5 @@
 # DSFANet (Deep Slow Feature Analysis Network)
-Code for [Unsupervised Deep Slow Feature Analysis for Change Detection in Multi-Temporal Remote Sensing Images.](https://arxiv.org/abs/1812.00645)
+Tnesorflow implementation for [Unsupervised Deep Slow Feature Analysis for Change Detection in Multi-Temporal Remote Sensing Images.](https://arxiv.org/abs/1812.00645)
 
 <img src="./figures/dsfa.png">
 
@@ -19,7 +19,7 @@ matplotlib==2.1.2
 ## Usage
 ### Download data
 - [DOWNLOAD DATA](https://pan.baidu.com/s/1I_1o7RePylgjzxAPXZ6BMA).
-- Notice: This dataset was firstly provided in [GETNET: A General End-to-end Two-dimensional CNN Framework for Hyperspectral Image Change Detection](https://arxiv.org/abs/1905.01662).
+- Note: This dataset was firstly provided in [GETNET: A General End-to-end Two-dimensional CNN Framework for Hyperspectral Image Change Detection](https://arxiv.org/abs/1905.01662).
 
 ### Install the requirements
 ```
@@ -68,4 +68,4 @@ Please cite our paper if you use this code in your research.
 ```
 
 ## Q & A
-**For any questions, please [contact me.](mailto:rulixiang@outlook.com)**
+**For any questions, please [contact us.](mailto:rulixiang@outlook.com)**

@@ -61,11 +61,11 @@ def linear_sfa(fcx, fcy, vp, shape):
 
     delta = np.matmul(fcx, vp) - np.matmul(fcy, vp)
 
-    delta = delta / np.std(delta, axis=0)
-
-    differ_map = delta  # utils.normlize(delta)
+    #delta = delta / np.std(delta, axis=0)
 
     delta = delta**2
+
+    differ_map = delta#normlize(delta)
 
     magnitude = np.sum(delta, axis=1)
 

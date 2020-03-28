@@ -51,27 +51,29 @@ def dsfa(xtrain, ytrain, xtest, ytest, net_shape=None, args=None):
     fc3x = tf.nn.bias_add(tf.matmul(fc21, fc3w1), fc3b1)
     fc3y = tf.nn.bias_add(tf.matmul(fc22, fc3w2), fc3b2)
 
-    #fc3x = activation(fc3x)
-    #fc3y = activation(fc3y)
+    fc3x = activation(fc3x)
+    fc3y = activation(fc3y)
 
-    fc_x = fc3x
-    fc_y = fc3y
+    #fc3x - tf.cast(tf.divide(1, bands), tf.float32) * tf.matmul(fc3x, tf.ones([bands, bands]))
+    m = tf.shape(fc3x)[1]
+    fc_x = fc3x - tf.cast(tf.divide(1, m), tf.float32) * tf.matmul(fc3x, tf.ones([m, m]))
+    fc_y = fc3y - tf.cast(tf.divide(1, m), tf.float32) * tf.matmul(fc3y, tf.ones([m, m]))
 
     Differ = fc_x - fc_y
 
     A = tf.matmul(Differ, Differ, transpose_a=True)
     A = A / train_num
 
-    sigmaX = tf.matmul(fc_x, fc_x, transpose_a=True) + args.reg  * tf.eye(net_shape[-1])
-    sigmaY = tf.matmul(fc_y, fc_y, transpose_a=True) + args.reg  * tf.eye(net_shape[-1])
-    sigmaX = sigmaX / train_num
-    sigmaY = sigmaY / train_num
+    sigmaX = tf.matmul(fc_x, fc_x, transpose_a=True)
+    sigmaY = tf.matmul(fc_y, fc_y, transpose_a=True)
+    sigmaX = sigmaX / train_num + args.reg  * tf.eye(net_shape[-1])
+    sigmaY = sigmaY / train_num + args.reg  * tf.eye(net_shape[-1])
 
-    B = (sigmaX + sigmaY) / 2 + args.reg * tf.eye(net_shape[-1])
+    B = (sigmaX + sigmaY) / 2# + args.reg * tf.eye(net_shape[-1])
 
     # B_inv, For numerical stability.
     D_B, V_B = tf.self_adjoint_eig(B)
-    idx = tf.where(D_B>1e-12)[:,0]
+    idx = tf.where(D_B > 1e-12)[:, 0]
     D_B = tf.gather(D_B, idx)
     V_B = tf.gather(V_B, idx, axis=1)
     B_inv = tf.matmul(tf.matmul(V_B, tf.diag(tf.reciprocal(D_B))), tf.transpose(V_B))
@@ -80,7 +82,8 @@ def dsfa(xtrain, ytrain, xtest, ytest, net_shape=None, args=None):
 
     D, V = tf.self_adjoint_eig(sigma)
     
-    loss = tf.sqrt(tf.reduce_sum(tf.trace(tf.matmul(sigma,sigma))))
+    #loss = tf.sqrt(tf.trace(tf.matmul(sigma,sigma)))
+    loss = tf.trace(tf.matmul(sigma,sigma))
 
     optimizer = tf.train.GradientDescentOptimizer(args.lr).minimize(loss)
 

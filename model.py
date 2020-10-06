@@ -56,8 +56,8 @@ def dsfa(xtrain, ytrain, xtest, ytest, net_shape=None, args=None):
 
     #fc3x - tf.cast(tf.divide(1, bands), tf.float32) * tf.matmul(fc3x, tf.ones([bands, bands]))
     m = tf.shape(fc3x)[1]
-    fc_x = fc3x - tf.cast(tf.divide(1, m), tf.float32) * tf.matmul(fc3x, tf.ones([m, m]))
-    fc_y = fc3y - tf.cast(tf.divide(1, m), tf.float32) * tf.matmul(fc3y, tf.ones([m, m]))
+    fc_x = fc3x - tf.reduce_mean(fc3x, axis=0)
+    fc_y = fc3y - tf.reduce_mean(fc3y, axis=0)
 
     Differ = fc_x - fc_y
 

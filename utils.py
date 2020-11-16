@@ -1,53 +1,12 @@
-# -*- coding: utf-8 -*-
-
+import matplotlib.pyplot as plt
 import numpy as np
-import scipy.io as sio
-from matplotlib import image
-from scipy.cluster.vq import kmeans as km
+import scipy
+from scipy import io as sio
+from sklearn import preprocessing
+from sklearn.cluster import KMeans
 
 
-def metric(img=None, chg_ref=None):
-
-    chg_ref = np.array(chg_ref, dtype=np.float32)
-    chg_ref = chg_ref / np.max(chg_ref)
-
-    img = np.reshape(img, [-1])
-    chg_ref = np.reshape(chg_ref, [-1])
-
-    loc1 = np.where(chg_ref == 1)[0]
-    num1 = np.sum(img[loc1] == 1)
-    acc_chg = np.divide(float(num1), float(np.shape(loc1)[0]))
-
-    loc2 = np.where(chg_ref == 0)[0]
-    num2 = np.sum(img[loc2] == 0)
-    acc_un = np.divide(float(num2), float(np.shape(loc2)[0]))
-
-    acc_all = np.divide(float(num1 + num2), float(np.shape(loc1)[0] + np.shape(loc2)[0]))
-
-    loc3 = np.where(img == 1)[0]
-    num3 = np.sum(chg_ref[loc3] == 1)
-    acc_tp = np.divide(float(num3), float(np.shape(loc3)[0]))
-
-    print('')
-    print('Accuracy of Unchanged Regions is: %.4f' % (acc_un))
-    print('Accuracy of Changed Regions is:   %.4f' % (acc_chg))
-    print('The True Positive ratio is:       %.4f' % (acc_tp))
-    print('Accuracy of all testing sets is : %.4f' % (acc_all))
-
-    return acc_un, acc_chg, acc_all, acc_tp
-
-
-def getTrainSamples(index, im1, im2, number=4000):
-
-    loc = np.where(index != 1)[0]
-    perm = np.random.permutation(np.shape(loc)[0])
-
-    ind = loc[perm[0:number]]
-
-    return im1[ind, :], im2[ind, :]
-
-
-def normlize(data):
+def normalize(data):
     meanv = np.mean(data, axis=0)
     stdv = np.std(data, axis=0)
 
@@ -56,51 +15,64 @@ def normlize(data):
 
     return data
 
+def load_dataset(norm_flag=True):
 
-def linear_sfa(fcx, fcy, vp, shape):
+    imgX = sio.loadmat('river/river_before.mat')['river_before']
+    imgY = sio.loadmat('river/river_after.mat')['river_after']
 
-    delta = np.matmul(fcx, vp) - np.matmul(fcy, vp)
+    imgX = np.reshape(imgX, newshape=[-1, imgX.shape[-1]])
+    imgY = np.reshape(imgY, newshape=[-1, imgY.shape[-1]])
 
-    #delta = delta / np.std(delta, axis=0)
+    GT = sio.loadmat('river/groundtruth.mat')['lakelabel_v1']
 
-    delta = delta**2
+    if norm_flag:
+        X = preprocessing.StandardScaler().fit_transform(imgX)
+        Y = preprocessing.StandardScaler().fit_transform(imgY)
+        #X = normalize(imgX)
+        #Y = normalize(imgY)
 
-    differ_map = delta#normlize(delta)
+    return X, Y, GT
 
-    magnitude = np.sum(delta, axis=1)
+def cva(X, Y):
 
-    vv = magnitude / np.max(magnitude)
+    diff = X - Y
+    diff_s = (diff**2).sum(axis=-1)
 
-    im = np.reshape(kmeans(vv), shape[0:-1])
+    return np.sqrt(diff_s)
 
-    return im, magnitude, differ_map
+def SFA(X, Y):
+    '''
+    see http://sigma.whu.edu.cn/data/res/files/SFACode.zip
+    '''
+    norm_flag = True
+    m, n = np.shape(X)
+    meanX = np.mean(X, axis=0)
+    meanY = np.mean(Y, axis=0)
 
+    stdX = np.std(X, axis=0)
+    stdY = np.std(Y, axis=0)
 
-def data_loader(area=None):
+    Xc = (X - meanX) / stdX
+    Yc = (Y - meanY) / stdY
 
-    img1_path = area + '/img_t1.mat'
-    img2_path = area + '/img_t2.mat'
-    change_path = area + '/chg_ref.bmp'
+    Xc = Xc.T
+    Yc = Yc.T
 
-    mat1 = sio.loadmat(img1_path)
-    mat2 = sio.loadmat(img2_path)
+    A = np.matmul((Xc-Yc), (Xc-Yc).T)/m
+    B = (np.matmul(Yc, Yc.T)+np.matmul(Yc, Yc.T))/2/m
 
-    img1 = mat1['im']
-    img2 = mat2['im']
+    D, V = scipy.linalg.eig(A, B)  # V is column wise
+    D = D.real
+    #idx = D.argsort()
+    #D = D[idx]
 
-    chg_map = image.imread(change_path)
+    if norm_flag is True:
+        aux1 = np.matmul(np.matmul(V.T, B), V)
+        aux2 = 1/np.sqrt(np.diag(aux1))
+        V = V * aux2
+    #V = V[:,0:3]
+    X_trans = np.matmul(V.T, Xc).T
+    Y_trans = np.matmul(V.T, Yc).T
 
-    return img1, img2, chg_map
+    return X_trans, Y_trans
 
-
-def kmeans(data):
-    shape = np.shape(data)
-    # print((data))
-    ctr, _ = km(data, 2)
-
-    for k1 in range(shape[0]):
-        if abs(ctr[0] - data[k1]) >= abs(ctr[1] - data[k1]):
-            data[k1] = 0
-        else:
-            data[k1] = 1
-    return data

@@ -69,5 +69,5 @@ if __name__ == '__main__':
 
     X, Y, GT = utils.load_dataset()
     diff = utils.cva(X=X, Y=Y)
-    plt.imsave('cva_diff.png', np.reshape(diff, GT.shape), cmap='gray')
+    plt.imsave('CVAdiff.png', np.reshape(diff, GT.shape), cmap='gray')
     main(X, Y, GT, diff)

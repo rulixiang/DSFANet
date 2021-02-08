@@ -34,26 +34,26 @@ class DSFANet(object):
         B = (Sigma_XX+Sigma_YY)/2
 
         # For numerical stability.
-        D_B, V_B = tf.self_adjoint_eig(B)
+        D_B, V_B = tf.linalg.eigh(B)
         idx = tf.where(D_B > 1e-12)[:, 0]
         D_B = tf.gather(D_B, idx)
         V_B = tf.gather(V_B, idx, axis=1)
-        B_inv = tf.matmul(tf.matmul(V_B, tf.diag(tf.reciprocal(D_B))), tf.transpose(V_B))
+        B_inv = tf.matmul(tf.matmul(V_B, tf.linalg.diag(tf.math.reciprocal(D_B))), tf.transpose(V_B))
         ##
 
         Sigma = tf.matmul(B_inv, A)
-        loss = tf.trace(tf.matmul(Sigma, Sigma))
+        loss = tf.linalg.trace(tf.matmul(Sigma, Sigma))
 
         return loss
 
     def forward(self, X, Y):
 
         for k in range(self.layers):
-            X = tf.layers.dense(inputs=X, units=self.hidden_num, activation=self.activation, use_bias=True,)
-            Y = tf.layers.dense(inputs=Y, units=self.hidden_num, activation=self.activation, use_bias=True,)
+            X = tf.compat.v1.layers.dense(inputs=X, units=self.hidden_num, activation=self.activation, use_bias=True,)
+            Y = tf.compat.v1.layers.dense(inputs=Y, units=self.hidden_num, activation=self.activation, use_bias=True,)
 
-        self.X_ = tf.layers.dense(inputs=X, units=self.output_num, activation=self.activation, use_bias=True,)
-        self.Y_ = tf.layers.dense(inputs=Y, units=self.output_num, activation=self.activation, use_bias=True,)
+        self.X_ = tf.compat.v1.layers.dense(inputs=X, units=self.output_num, activation=self.activation, use_bias=True,)
+        self.Y_ = tf.compat.v1.layers.dense(inputs=Y, units=self.output_num, activation=self.activation, use_bias=True,)
 
         loss = self.DSFA(self.X_, self.Y_)
 

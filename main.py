@@ -19,8 +19,8 @@ def main(X, Y, GT, diff):
     XData = X[index[0:train_num], :]
     YData = Y[index[0:train_num], :]
 
-    inputX = tf.keras.Input(dtype=tf.dtypes.float32, shape=[None, X.shape[-1]])
-    inputY = tf.keras.Input(dtype=tf.dtypes.float32, shape=[None, Y.shape[-1]])
+    inputX = tf.keras.Input(dtype=tf.dtypes.float32, shape=[X.shape[-1]])
+    inputY = tf.keras.Input(dtype=tf.dtypes.float32, shape=[sY.shape[-1]])
 
     model = DSFANet(num=train_num)
     loss = model.forward(X=inputX, Y=inputY)

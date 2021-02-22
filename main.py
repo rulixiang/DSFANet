@@ -7,7 +7,7 @@ from sklearn.metrics import accuracy_score
 
 import utils
 from model import DSFANet
-
+tf.compat.v1.disable_eager_execution()
 
 def main(X, Y, GT, diff):
 
@@ -19,17 +19,18 @@ def main(X, Y, GT, diff):
     XData = X[index[0:train_num], :]
     YData = Y[index[0:train_num], :]
 
-    inputX = tf.placeholder(dtype=tf.float32, shape=[None, X.shape[-1]])
-    inputY = tf.placeholder(dtype=tf.float32, shape=[None, Y.shape[-1]])
+    inputX = tf.keras.Input(dtype=tf.dtypes.float32, shape=[X.shape[-1]])
+    inputY = tf.keras.Input(dtype=tf.dtypes.float32, shape=[sY.shape[-1]])
+
     model = DSFANet(num=train_num)
     loss = model.forward(X=inputX, Y=inputY)
 
-    optimizer = tf.train.GradientDescentOptimizer(lr).minimize(loss)
-    init = tf.global_variables_initializer()
+    optimizer = tf.compat.v1.train.GradientDescentOptimizer(lr).minimize(loss)
+    init = tf.compat.v1.global_variables_initializer()
 
-    gpu_options = tf.GPUOptions(allow_growth=True)
-    conf = tf.ConfigProto(gpu_options=gpu_options)
-    sess = tf.Session(config=conf)
+    gpu_options = tf.compat.v1.GPUOptions(allow_growth=True)
+    conf = tf.compat.v1.ConfigProto(gpu_options=gpu_options)
+    sess = tf.compat.v1.Session(config=conf)
 
     sess.run(init)
 

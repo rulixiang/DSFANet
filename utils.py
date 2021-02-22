@@ -16,15 +16,14 @@ def normalize(data):
     return data
 
 def load_dataset(norm_flag=True):
-
-    imgX = sio.loadmat('river/river_before.mat')['river_before']
-    imgY = sio.loadmat('river/river_after.mat')['river_after']
-
+    imgX = sio.loadmat('/Users/gopaku67/Documents/workspace/DSFANet/dataset/dataset zuixin/river_before.mat')['river_before']
+    imgY = sio.loadmat('/Users/gopaku67/Documents/workspace/DSFANet/dataset/dataset zuixin/river_after.mat')['river_after']
+    GT = sio.loadmat('/Users/gopaku67/Documents/workspace/DSFANet/dataset/dataset zuixin/groundtruth.mat')['lakelabel_v1']
+    
     imgX = np.reshape(imgX, newshape=[-1, imgX.shape[-1]])
     imgY = np.reshape(imgY, newshape=[-1, imgY.shape[-1]])
 
-    GT = sio.loadmat('river/groundtruth.mat')['lakelabel_v1']
-
+    
     if norm_flag:
         X = preprocessing.StandardScaler().fit_transform(imgX)
         Y = preprocessing.StandardScaler().fit_transform(imgY)
